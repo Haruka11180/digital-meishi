@@ -4,42 +4,44 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- ============================================================
-  デジタル名刺 — 大木 遥
+  大木遥 デジタル名刺 / ミニホームページ
   ▼ 編集するところ
-    1. <title> と meta
-    2. .card の中の名前・肩書き・ひとこと
-    3. 連絡先の行 (メール / GitHub / SNS)
-    4. data-vcard-* 属性 (「連絡先に保存」ボタンの中身)
-    5. 写真: .avatar の div を <img class="avatar" src="photo.jpg" alt=""> に差し替え
+    1. hero 内の名前・モットー・チップ
+    2. プロフィール表 (dl)
+    3. Works のカード
+    4. Links のタイル
+    5. data-vcard-* 属性 (「連絡先に保存」の中身)
+    6. 写真: .avatar の div を <img class="avatar" src="photo.jpg" alt=""> に
 ============================================================ -->
 <title>大木 遥 | デジタル名刺</title>
-<meta name="description" content="大木遥のデジタル名刺。連絡先とリンクはこちらから。">
+<meta name="description" content="大木遥のデジタル名刺。プロフィール・作品・連絡先はこちらから。">
 <meta property="og:title" content="大木 遥 | デジタル名刺">
-<meta property="og:description" content="連絡先とリンクはこちらから。">
+<meta property="og:description" content="プロフィール・作品・連絡先はこちらから。">
 <style>
   :root {
-    --bg: #F2F6F6;
+    --bg: #F4F8F8;
     --card: #FFFFFF;
     --ink: #1B2B33;
     --sub: #5C7078;
     --accent: #2F8F8A;
-    --line: #DCE6E6;
+    --line: #DFE9E9;
     --glow: rgba(47, 143, 138, .10);
+    /* ヒーローは常に「夜の海」 */
+    --hero-top: #0B1622;
+    --hero-bottom: #12293B;
+    --hero-ink: #EAF3F4;
+    --hero-sub: #9FB6C0;
+    --hero-accent: #7FD8D3;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0B1622;
-      --card: #101F2E;
-      --ink: #E8F0F2;
-      --sub: #93A7B3;
-      --accent: #7FD8D3;
-      --line: #1E3242;
-      --glow: rgba(127, 216, 211, .08);
+      --bg: #0B1622; --card: #101F2E; --ink: #E8F0F2; --sub: #93A7B3;
+      --accent: #7FD8D3; --line: #1E3242; --glow: rgba(127,216,211,.08);
     }
   }
   :root[data-theme="light"] {
-    --bg: #F2F6F6; --card: #FFFFFF; --ink: #1B2B33; --sub: #5C7078;
-    --accent: #2F8F8A; --line: #DCE6E6; --glow: rgba(47,143,138,.10);
+    --bg: #F4F8F8; --card: #FFFFFF; --ink: #1B2B33; --sub: #5C7078;
+    --accent: #2F8F8A; --line: #DFE9E9; --glow: rgba(47,143,138,.10);
   }
   :root[data-theme="dark"] {
     --bg: #0B1622; --card: #101F2E; --ink: #E8F0F2; --sub: #93A7B3;
@@ -52,189 +54,181 @@
     background: var(--bg);
     color: var(--ink);
     font-family: "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
-    min-height: 100dvh;
-    display: grid;
-    place-items: center;
-    padding: 24px 16px;
     line-height: 1.7;
   }
 
-  #sea {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-  }
-
-  .card {
+  /* ---------- ヒーロー ---------- */
+  .hero {
     position: relative;
-    z-index: 1;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: 6px;
-    box-shadow: 0 24px 60px -30px rgba(6, 20, 32, .35), 0 0 0 6px var(--glow);
-    width: min(420px, 100%);
-    padding: 40px 36px 32px;
+    overflow: hidden;
+    background: linear-gradient(180deg, var(--hero-top), var(--hero-bottom));
+    color: var(--hero-ink);
+    padding: 56px 20px 44px;
+    text-align: center;
   }
+  #sea { position: absolute; inset: 0; pointer-events: none; }
+  .hero > * { position: relative; }
 
   .avatar {
-    width: 76px;
-    height: 76px;
+    width: 88px; height: 88px;
     border-radius: 50%;
-    border: 1px solid var(--line);
-    background: var(--glow);
-    color: var(--accent);
-    display: grid;
-    place-items: center;
-    font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
-    font-size: 30px;
+    border: 2px solid rgba(127, 216, 211, .5);
+    background: rgba(127, 216, 211, .12);
+    color: var(--hero-accent);
+    display: grid; place-items: center;
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", serif;
+    font-size: 36px;
     object-fit: cover;
-    margin-bottom: 20px;
+    margin: 0 auto 18px;
   }
-
   .reading {
-    font-size: 11px;
-    letter-spacing: .32em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 8px;
+    font-size: 12px; letter-spacing: .34em; text-transform: uppercase;
+    color: var(--hero-accent); margin-bottom: 6px;
   }
-
   h1 {
     font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
-    font-weight: 500;
-    font-size: 38px;
-    letter-spacing: .1em;
-    line-height: 1.25;
-    text-wrap: balance;
+    font-weight: 500; font-size: 44px; letter-spacing: .12em; line-height: 1.2;
   }
-
-  .title {
-    margin-top: 8px;
-    font-size: 14px;
-    color: var(--sub);
-    letter-spacing: .04em;
-    text-wrap: balance;
+  .motto {
+    margin-top: 10px; font-size: 15px; color: var(--hero-sub); letter-spacing: .06em;
   }
+  .motto strong { color: var(--hero-ink); font-weight: 600; }
 
-  .bio {
+  .chips {
     margin-top: 18px;
-    font-size: 14px;
-    max-width: 38ch;
+    display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;
+    list-style: none;
   }
-
-  .section-label {
-    margin-top: 28px;
-    font-size: 11px;
-    letter-spacing: .24em;
-    text-transform: uppercase;
-    color: var(--accent);
-  }
-
-  .works {
-    margin-top: 8px;
-    border-top: 1px solid var(--line);
-    display: flex;
-    flex-direction: column;
-  }
-  .work {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-    padding: 12px 2px;
-    border-bottom: 1px solid var(--line);
-  }
-  .work .head {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .work .name {
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: .02em;
-  }
-  .work a.name {
-    color: var(--ink);
-    text-decoration: none;
-  }
-  .work a.name:hover, .work a.name:focus-visible { color: var(--accent); }
-  .work .chip {
-    font-size: 10px;
-    letter-spacing: .12em;
-    color: var(--sub);
-    border: 1px solid var(--line);
+  .chips li {
+    font-size: 12px; letter-spacing: .08em;
+    color: var(--hero-ink);
+    border: 1px solid rgba(159, 182, 192, .45);
     border-radius: 999px;
-    padding: 1px 8px;
-    white-space: nowrap;
-  }
-  .work .desc {
-    font-size: 12.5px;
-    color: var(--sub);
+    padding: 4px 14px;
+    background: rgba(11, 22, 34, .35);
   }
 
-  .contacts {
-    margin-top: 8px;
-    border-top: 1px solid var(--line);
-    display: flex;
-    flex-direction: column;
+  .hero-actions {
+    margin-top: 24px;
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
   }
-  .contacts a {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    padding: 13px 2px;
-    border-bottom: 1px solid var(--line);
-    text-decoration: none;
-    color: var(--ink);
-    font-size: 14px;
-  }
-  .contacts a:hover .value,
-  .contacts a:focus-visible .value { color: var(--accent); }
-  .contacts a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-  .contacts .label {
-    flex: 0 0 4.5em;
-    font-size: 11px;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--sub);
-  }
-  .contacts .value {
-    word-break: break-all;
-    transition: color .15s ease;
-  }
-
-  .actions {
-    margin-top: 26px;
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-  }
-  .actions button {
-    appearance: none;
-    font: inherit;
-    font-size: 13px;
-    letter-spacing: .04em;
-    padding: 10px 18px;
-    border-radius: 4px;
-    cursor: pointer;
-    border: 1px solid var(--accent);
-    background: var(--accent);
-    color: var(--bg);
+  .hero-actions button {
+    appearance: none; font: inherit; cursor: pointer;
+    font-size: 13.5px; letter-spacing: .05em;
+    padding: 11px 22px; border-radius: 999px;
+    border: 1px solid var(--hero-accent);
+    background: var(--hero-accent); color: #0B1622;
+    font-weight: 600;
     transition: opacity .15s ease;
   }
-  .actions button.ghost {
-    background: transparent;
+  .hero-actions button.ghost { background: transparent; color: var(--hero-accent); font-weight: 500; }
+  .hero-actions button:hover { opacity: .85; }
+  .hero-actions button:focus-visible { outline: 2px solid var(--hero-accent); outline-offset: 3px; }
+
+  /* ---------- 本文 ---------- */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 8px 20px 48px;
+  }
+  section { margin-top: 44px; }
+
+  .eyebrow {
+    font-size: 11px; letter-spacing: .3em; text-transform: uppercase;
     color: var(--accent);
   }
-  .actions button:hover { opacity: .82; }
-  .actions button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  h2 {
+    font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+    font-weight: 500; font-size: 24px; letter-spacing: .08em;
+    margin-top: 2px; margin-bottom: 18px;
+  }
 
-  .note {
-    margin-top: 22px;
-    font-size: 11px;
-    color: var(--sub);
+  /* プロフィール表 */
+  .profile {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .profile > div {
+    display: flex; gap: 16px;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--line);
+    font-size: 14px;
+  }
+  .profile > div:last-child { border-bottom: none; }
+  .profile dt {
+    flex: 0 0 6em;
+    color: var(--sub); font-size: 12.5px;
     letter-spacing: .06em;
+    padding-top: 1px;
+  }
+  .profile dd { flex: 1; }
+
+  /* Works カード */
+  .works {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+    list-style: none;
+  }
+  .work {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px 18px;
+  }
+  .work .icon { font-size: 22px; line-height: 1; }
+  .work h3 {
+    font-size: 15px; font-weight: 600; letter-spacing: .02em;
+    margin-top: 8px;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .work h3 a { color: var(--ink); text-decoration: none; }
+  .work h3 a:hover, .work h3 a:focus-visible { color: var(--accent); }
+  .work .chip {
+    font-size: 10px; letter-spacing: .1em; font-weight: 500;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 1px 9px;
+  }
+  .work p { margin-top: 6px; font-size: 12.5px; color: var(--sub); }
+
+  /* リンクタイル */
+  .links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 12px;
+    list-style: none;
+  }
+  .links a {
+    display: block;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px 18px;
+    text-decoration: none;
+    color: var(--ink);
+    transition: border-color .15s ease;
+  }
+  .links a:hover, .links a:focus-visible { border-color: var(--accent); }
+  .links a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .links .label {
+    display: block;
+    font-size: 11px; letter-spacing: .2em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  .links .value {
+    display: block;
+    font-size: 14px; margin-top: 2px;
+    word-break: break-all;
+  }
+
+  footer {
+    text-align: center;
+    padding: 0 20px 40px;
+    font-size: 11.5px; color: var(--sub); letter-spacing: .06em;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -244,10 +238,9 @@
 </head>
 <body>
 
-<canvas id="sea" aria-hidden="true"></canvas>
-
-<!-- ▼▼▼ ここから名刺の中身。自由に書き換えてください ▼▼▼ -->
-<main class="card"
+<!-- ▼▼▼ ヒーロー ▼▼▼ -->
+<header class="hero"
+      id="card"
       data-vcard-last="大木"
       data-vcard-first="遥"
       data-vcard-reading="オオギ ハルカ"
@@ -256,98 +249,113 @@
       data-vcard-email="haruka.kurage@gmail.com"
       data-vcard-email2="haruka.ogi@media-engine.jp"
       data-vcard-url="https://github.com/Haruka11180">
+  <canvas id="sea" aria-hidden="true"></canvas>
 
   <!-- 写真を入れるときはこの div を <img class="avatar" src="写真ファイル名" alt=""> に -->
   <div class="avatar" aria-hidden="true">遥</div>
 
   <p class="reading">Haruka Ogi</p>
   <h1>大木 遥</h1>
-  <p class="title">2026年新卒 / マーケティング × ものづくり</p>
+  <p class="motto">モットーは<strong>「やりたいこと全てやる」</strong></p>
 
-  <p class="bio">
-    モットーは「やりたいこと全てやる」。近畿大学経営学部(マーケティング戦略コース)の
-    サービスデザインのゼミで、企業との商品開発からパッケージ・販促の提案まで手がけてきました。
-    学生団体では動画制作チームの立て直しを主導し、その経験からタスク管理アプリを自作。
-    いまは音楽ゲームやMVの制作にも手を広げています。ことばはnoteに、日々はInstagramに。
-    ダンスも歌もベースもお菓子作りもやる人です。
-  </p>
+  <ul class="chips">
+    <li>マーケティング</li>
+    <li>商品開発</li>
+    <li>動画・MV</li>
+    <li>音楽</li>
+    <li>アプリづくり</li>
+  </ul>
 
-  <p class="section-label">Works — つくっているもの</p>
-  <section class="works">
-    <div class="work">
-      <div class="head">
-        <span class="name">音楽ゲーム</span>
-        <span class="chip">制作中・デモ準備中</span>
-      </div>
-      <p class="desc">オリジナルの音ゲー。遊べるデモを公開予定。</p>
-    </div>
-    <div class="work">
-      <div class="head">
-        <span class="name">MV制作</span>
-        <span class="chip">デモ準備中</span>
-      </div>
-      <p class="desc">楽曲のミュージックビデオ制作。作例を公開予定。</p>
-    </div>
-    <div class="work">
-      <div class="head">
-        <span class="name">task every</span>
-        <span class="chip">開発中</span>
-      </div>
-      <p class="desc">新卒のためのタスク・研修進捗管理アプリ (Next.js + Supabase)。</p>
-    </div>
-    <div class="work">
-      <div class="head">
-        <span class="name">商品開発・ブランディング</span>
-        <span class="chip">ゼミ実績</span>
-      </div>
-      <p class="desc">サービスデザインのゼミで企業と連携。パッケージから販促まで提案。</p>
-    </div>
-    <!-- デモのURLが決まったら <span class="name"> を
-         <a class="name" href="URL" target="_blank" rel="noopener">名前</a> に変えてください -->
-  </section>
-
-  <p class="section-label">Links — 連絡先</p>
-  <nav class="contacts" aria-label="連絡先">
-    <a href="mailto:haruka.kurage@gmail.com">
-      <span class="label">Email</span>
-      <span class="value">haruka.kurage@gmail.com</span>
-    </a>
-    <a href="mailto:haruka.ogi@media-engine.jp">
-      <span class="label">Work</span>
-      <span class="value">haruka.ogi@media-engine.jp</span>
-    </a>
-    <a href="https://github.com/Haruka11180" target="_blank" rel="noopener">
-      <span class="label">GitHub</span>
-      <span class="value">github.com/Haruka11180</span>
-    </a>
-    <a href="https://www.figma.com/proto/L2qnbDs9WneIMDVShIBcgL/%EF%BC%95%E4%BD%9C%E7%9B%AE%E3%80%80%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA?page-id=0%3A1&node-id=2-2&p=f&viewport=-185%2C310%2C0.13&t=hf3PwtZqssO7ilhU-1&scaling=min-zoom&content-scaling=fixed" target="_blank" rel="noopener">
-      <span class="label">Portfolio</span>
-      <span class="value">ポートフォリオ (Figma)</span>
-    </a>
-    <a href="https://note.com/kimi_to_if" target="_blank" rel="noopener">
-      <span class="label">note</span>
-      <span class="value">note.com/kimi_to_if</span>
-    </a>
-    <a href="https://www.instagram.com/kinomi_hito" target="_blank" rel="noopener">
-      <span class="label">Insta</span>
-      <span class="value">@kinomi_hito</span>
-    </a>
-  </nav>
-
-  <div class="actions">
+  <div class="hero-actions">
     <button id="save-vcard" type="button">連絡先に保存</button>
     <button id="copy-link" type="button" class="ghost">リンクをコピー</button>
   </div>
+</header>
 
-  <p class="note">このページはデジタル名刺です。URL をそのまま共有できます。</p>
+<main>
+  <!-- ▼▼▼ プロフィール ▼▼▼ -->
+  <section aria-labelledby="h-profile">
+    <p class="eyebrow">Profile</p>
+    <h2 id="h-profile">プロフィール</h2>
+    <dl class="profile">
+      <div><dt>名前</dt><dd>大木 遥(おおぎ はるか)</dd></div>
+      <div><dt>出身</dt><dd>大阪</dd></div>
+      <div><dt>大学</dt><dd>近畿大学 経営学部 商学科<br>マーケティング戦略コース(2026年3月卒)</dd></div>
+      <div><dt>いま</dt><dd>2026年新卒として働きはじめました</dd></div>
+      <div><dt>学生時代</dt><dd>サービスデザインのゼミで企業との商品開発・販促を経験。学生団体では動画制作チームの立て直しを主導</dd></div>
+      <div><dt>好きなこと</dt><dd>ダンス / 歌 / ベース / 動画編集 / お菓子作り / 旅行 / ゲーム / 読書</dd></div>
+    </dl>
+  </section>
+
+  <!-- ▼▼▼ つくっているもの ▼▼▼ -->
+  <section aria-labelledby="h-works">
+    <p class="eyebrow">Works</p>
+    <h2 id="h-works">つくっているもの</h2>
+    <ul class="works">
+      <li class="work">
+        <span class="icon" aria-hidden="true">🎮</span>
+        <h3>音楽ゲーム <span class="chip">制作中</span></h3>
+        <p>オリジナルの音ゲー。遊べるデモを公開予定。</p>
+      </li>
+      <li class="work">
+        <span class="icon" aria-hidden="true">🎬</span>
+        <h3>MV制作 <span class="chip">デモ準備中</span></h3>
+        <p>楽曲のミュージックビデオ制作。作例を公開予定。</p>
+      </li>
+      <li class="work">
+        <span class="icon" aria-hidden="true">✅</span>
+        <h3>task every <span class="chip">開発中</span></h3>
+        <p>新卒のためのタスク・研修進捗管理アプリ。</p>
+      </li>
+      <li class="work">
+        <span class="icon" aria-hidden="true">📦</span>
+        <h3>商品開発 <span class="chip">ゼミ実績</span></h3>
+        <p>企業と連携し、パッケージから販促まで提案。</p>
+      </li>
+    </ul>
+    <!-- デモのURLが決まったら <h3>音楽ゲーム</h3> の中を
+         <a href="URL" target="_blank" rel="noopener">音楽ゲーム</a> に変えてください -->
+  </section>
+
+  <!-- ▼▼▼ リンク ▼▼▼ -->
+  <section aria-labelledby="h-links">
+    <p class="eyebrow">Links</p>
+    <h2 id="h-links">連絡先・リンク</h2>
+    <ul class="links">
+      <li><a href="mailto:haruka.kurage@gmail.com">
+        <span class="label">Email</span>
+        <span class="value">haruka.kurage@gmail.com</span>
+      </a></li>
+      <li><a href="mailto:haruka.ogi@media-engine.jp">
+        <span class="label">Work</span>
+        <span class="value">haruka.ogi@media-engine.jp</span>
+      </a></li>
+      <li><a href="https://github.com/Haruka11180" target="_blank" rel="noopener">
+        <span class="label">GitHub</span>
+        <span class="value">Haruka11180</span>
+      </a></li>
+      <li><a href="https://www.figma.com/proto/L2qnbDs9WneIMDVShIBcgL/%EF%BC%95%E4%BD%9C%E7%9B%AE%E3%80%80%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA?page-id=0%3A1&node-id=2-2&p=f&viewport=-185%2C310%2C0.13&t=hf3PwtZqssO7ilhU-1&scaling=min-zoom&content-scaling=fixed" target="_blank" rel="noopener">
+        <span class="label">Portfolio</span>
+        <span class="value">ポートフォリオ (Figma)</span>
+      </a></li>
+      <li><a href="https://note.com/kimi_to_if" target="_blank" rel="noopener">
+        <span class="label">note</span>
+        <span class="value">kimi_to_if</span>
+      </a></li>
+      <li><a href="https://www.instagram.com/kinomi_hito" target="_blank" rel="noopener">
+        <span class="label">Instagram</span>
+        <span class="value">@kinomi_hito</span>
+      </a></li>
+    </ul>
+  </section>
 </main>
-<!-- ▲▲▲ 名刺の中身ここまで ▲▲▲ -->
+
+<footer>このページはデジタル名刺です。URL をそのまま共有できます。</footer>
 
 <script>
   // ---- 連絡先に保存 (vCard ダウンロード) ----
-  // 中身は .card の data-vcard-* 属性から作られます
   document.getElementById("save-vcard").addEventListener("click", () => {
-    const d = document.querySelector(".card").dataset;
+    const d = document.getElementById("card").dataset;
     const vcf = [
       "BEGIN:VCARD",
       "VERSION:3.0",
@@ -381,29 +389,27 @@
     } catch { /* クリップボード不可の環境では何もしない */ }
   });
 
-  // ---- 背景: 夜の海をただようくらげ ----
+  // ---- ヒーロー背景: 夜の海をただようくらげ ----
   (() => {
     const canvas = document.getElementById("sea");
     const ctx = canvas.getContext("2d");
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ACCENT = "#7FD8D3";
     let w, h, dpr;
 
-    const accent = () =>
-      getComputedStyle(document.documentElement).getPropertyValue("--accent").trim();
-
-    const jellies = Array.from({ length: 6 }, (_, i) => ({
-      x: (i + 0.5) / 6,               // 横位置 (0..1)
-      y: 0.2 + (i * 0.618) % 0.7,     // 縦位置 (0..1)
-      r: 14 + (i * 7) % 22,           // 傘の大きさ
-      speed: 0.006 + (i % 3) * 0.004, // 上昇速度
-      sway: 0.4 + (i % 4) * 0.25,     // 揺れ幅
+    const jellies = Array.from({ length: 5 }, (_, i) => ({
+      x: (i + 0.5) / 5,
+      y: 0.15 + (i * 0.618) % 0.7,
+      r: 12 + (i * 7) % 20,
+      speed: 0.008 + (i % 3) * 0.005,
+      sway: 0.4 + (i % 4) * 0.25,
       phase: i * 1.7,
     }));
 
     function resize() {
       dpr = Math.min(devicePixelRatio || 1, 2);
-      w = canvas.clientWidth = innerWidth;
-      h = canvas.clientHeight = innerHeight;
+      w = canvas.parentElement.clientWidth;
+      h = canvas.parentElement.clientHeight;
       canvas.width = w * dpr;
       canvas.height = h * dpr;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -418,11 +424,10 @@
 
       ctx.save();
       ctx.translate(x, y);
-      ctx.globalAlpha = 0.16;
+      ctx.globalAlpha = 0.2;
 
-      // 傘
       const grad = ctx.createRadialGradient(0, 0, r * 0.1, 0, 0, r);
-      grad.addColorStop(0, accent());
+      grad.addColorStop(0, ACCENT);
       grad.addColorStop(1, "transparent");
       ctx.fillStyle = grad;
       ctx.beginPath();
@@ -431,10 +436,9 @@
       ctx.quadraticCurveTo(-r * 0.6, r * 0.35, -r, 0);
       ctx.fill();
 
-      // 触手
-      ctx.strokeStyle = accent();
+      ctx.strokeStyle = ACCENT;
       ctx.lineWidth = 1;
-      ctx.globalAlpha = 0.10;
+      ctx.globalAlpha = 0.12;
       for (let k = -1; k <= 1; k++) {
         ctx.beginPath();
         ctx.moveTo(k * r * 0.4, r * 0.3);
@@ -456,7 +460,7 @@
 
     resize();
     if (reduced) {
-      draw(0); // 動きを減らす設定なら静止画
+      draw(0);
     } else {
       const loop = (ms) => { draw(ms / 1000); requestAnimationFrame(loop); };
       requestAnimationFrame(loop);
